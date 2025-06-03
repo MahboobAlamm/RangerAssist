@@ -4,6 +4,7 @@ from WareLobbyApplication.service.product_service import add_product, upsert_pro
 
 product_bp = Blueprint('product', __name__)
 
+
 @product_bp.route('/', methods=['GET'])
 def home():
     return "WarehouseLobbyApplication STARTED...."
