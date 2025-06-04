@@ -52,7 +52,7 @@ def upsert_product(product_list):
             status, product_id = upsert_products(product.to_dict())
             results[status].append({
                 "product_name" : product.product_name,
-                "product_id" : product_id
+                "product_id" : str(product_id)
             })
         except Exception as e:
             logger.error(f"Error processing product '{item.get('product_name')}': {e}")
