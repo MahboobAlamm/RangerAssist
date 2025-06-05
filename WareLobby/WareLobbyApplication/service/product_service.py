@@ -1,6 +1,7 @@
 from WareLobbyApplication.model.product import Product
-from WareLobbyApplication.dao.product_dao import insert_products, upsert_products
+from WareLobbyApplication.dao.product_dao import insert_products, upsert_products, fetch_expire_proucts
 from WareLobbyApplication.utils.logger import logger
+from datetime import datetime, timezone
 
 def add_product(product_list):
     try:
@@ -12,7 +13,7 @@ def add_product(product_list):
                 product_qty=item.get("product_qty"),
                 product_category=item.get("product_category"),
                 product_brand=item.get("product_brand"),
-                product_expiry_dt=item.get("product_expiry_dt"),
+                product_expiry_dt=datetime.fromisoformat(item.get("product_expiry_dt").replace("Z", "+00:00")),
                 product_price=item.get("product_price"),
                 product_fill_dt=item.get("product_fill_dt")
             )
@@ -45,7 +46,7 @@ def upsert_product(product_list):
                 product_qty=item.get("product_qty"),
                 product_category=item.get("product_category"),
                 product_brand=item.get("product_brand"),
-                product_expiry_dt=item.get("product_expiry_dt"),
+                product_expiry_dt=datetime.fromisoformat(item.get("product_expiry_dt").replace("Z", "+00:00")),
                 product_price=item.get("product_price"),
                 product_fill_dt=item.get("product_fill_dt")
             )
@@ -62,3 +63,18 @@ def upsert_product(product_list):
             })
 
     return {"status": "success", "result": results}
+
+def get_expired_products():
+    current_utc = datetime.now(timezone.utc)
+    try:
+        expired_products = fetch_expire_proucts(current_utc)
+        return {
+            "status": "success",
+            "expired_product": expired_products
+        }
+    except Exception as e:
+        logger.error(f"Service get_expired_product_names error: {e}")
+        return {         
+            "status": "error",
+            "message": str(e)
+        }

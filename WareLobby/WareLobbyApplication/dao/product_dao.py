@@ -30,3 +30,16 @@ def upsert_products(products):
     except Exception as e:
         logger.error(f"Upsert failed: {e}")
         raise
+
+def fetch_expire_proucts(current_utc):
+    try:
+        expired_prods = product_collection.find({
+            "product_expiry_dt": {"$lt": current_utc}, 
+        })
+
+        expired_product_names = [prod.get("product_name") for prod in expired_prods]
+        logger.info(f"Fetched {len(expired_product_names)} expired products.")
+        return expired_product_names
+    except Exception as e:
+        logger.error(f"DAO fetch_expired_products error: {e}")
+        raise
