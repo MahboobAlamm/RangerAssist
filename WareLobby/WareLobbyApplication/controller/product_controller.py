@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from WareLobbyApplication.utils.logger import logger
-from WareLobbyApplication.service.product_service import add_product, upsert_product, get_expired_products
+from WareLobbyApplication.service.product_service import add_product, upsert_product, get_expired_products, delete_expired_product
 
 product_bp = Blueprint('product', __name__)
 
@@ -34,6 +34,14 @@ def update_fill_produts():
 @product_bp.route('/getExpiredProducts', methods=['GET'])
 def get_expiry_products():
     result = get_expired_products()
+    if(result['status'] == 'success'):
+        return jsonify(result), 200
+    else:
+        return jsonify(result), 500
+    
+@product_bp.route("/deleteAllExpiredProduct", methods=['DELETE'])
+def delete_expiry_products():
+    result = delete_expired_product()
     if(result['status'] == 'success'):
         return jsonify(result), 200
     else:

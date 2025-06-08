@@ -43,3 +43,21 @@ def fetch_expire_proucts(current_utc):
     except Exception as e:
         logger.error(f"DAO fetch_expired_products error: {e}")
         raise
+
+def delete_expired_product_from_db(current_utc):
+    try:
+        expired_products = list(product_collection.find({
+            "product_expiry_dt": {"$lt": current_utc},
+        }))
+
+        expired_ids = [prod["_id"] for prod in expired_products]
+        deleted_info = [{"product_id": str(prod["_id"]), "product_name": prod["product_name"]} for prod in expired_products]
+
+        if(expired_ids):
+            product_collection.delete_many({ "_id": {"$in": expired_ids}})
+            logger.info(f"deleted {len(expired_ids)} expired products")
+        return deleted_info
+
+    except Exception as e:
+        logger.error(f"DAO delete_expired_products_from_db error: {e}")
+        raise

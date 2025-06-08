@@ -1,5 +1,5 @@
 from WareLobbyApplication.model.product import Product
-from WareLobbyApplication.dao.product_dao import insert_products, upsert_products, fetch_expire_proucts
+from WareLobbyApplication.dao.product_dao import insert_products, upsert_products, fetch_expire_proucts, delete_expired_product_from_db
 from WareLobbyApplication.utils.logger import logger
 from datetime import datetime, timezone
 
@@ -76,5 +76,21 @@ def get_expired_products():
         logger.error(f"Service get_expired_product_names error: {e}")
         return {         
             "status": "error",
+            "message": str(e)
+        }
+    
+def delete_expired_product():
+    current_utc = datetime.now(timezone.utc)
+    try:
+        deleted = delete_expired_product_from_db(current_utc)
+        return {
+            "status": "success",
+            "deleted_count": len(deleted),
+            "deleted_products": deleted
+        }
+    except Exception as e:
+        logger.error(f"Service delete_expired_products error: {e}")
+        return {
+            "status:": "error",
             "message": str(e)
         }
