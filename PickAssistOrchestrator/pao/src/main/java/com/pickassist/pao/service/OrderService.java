@@ -13,13 +13,6 @@ public class OrderService {
     private OrderRepository orderRespository;
 
     public void saveOrder(OrderDTO dto) {
-        Order order = new Order();
-
-        order.setStatus(dto.getStatus());
-        order.setNoOfOrdelineId(dto.getNoOfOrdelineId());
-        order.setOrderDt(dto.getOrderDt());
-        order.setTimestamp(dto.getTimestamp());
-
-        orderRespository.save(order);
+        
     }
 }

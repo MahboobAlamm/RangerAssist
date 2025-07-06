@@ -2,6 +2,7 @@ package com.pickassist.pao.model;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,15 +21,19 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
+    private int orderSK;
+
+    @Column(unique=true)
+    private Long orderId;
     private String status;
-    private int noOfOrdelineId;
     private Timestamp orderDt;
+    private Long noOfOrdelineId;
     private Timestamp timestamp;
     
     @Override
     public String toString() {
         return "Order{" +
+            "orderSK=" + orderSK +
             "orderId=" + orderId +
             ", status='" + status + '\'' +
             ", noOfOrdelineId=" + noOfOrdelineId +

@@ -1,6 +1,8 @@
 package com.pickassist.pao.model;
 
 import java.sql.Timestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,25 +15,27 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cutomer {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int customerId;
+    private int customerSK;
+
+    @Column(unique=true)
+    private Long orderlineId;
     private String customerName;
     private String customerAddress;
     private String customerEmail;
-    private Double customerContactNumber;
-    private int orderId;
-    private char priority;
-    private int orderlineId;
+    private String customerContactNumber;
+    private Long orderId;
+    private int priority;
     private Timestamp orderLineDt;
     private Timestamp timestamp;
 
     @Override
     public String toString() {
         return "Customer{" +
-                "customerId=" + customerId +
+                "customerId=" + customerSK +
                 ", customerName='" + customerName + '\'' +
                 ", customerAddress='" + customerAddress + '\'' +
                 ", customerEmail='" + customerEmail + '\'' +
