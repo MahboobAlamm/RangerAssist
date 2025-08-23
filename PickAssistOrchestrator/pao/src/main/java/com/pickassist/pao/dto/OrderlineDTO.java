@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class OrderlineDTO {
 
     private Long orderlineId;
+    private String orderlineStatus;
     private String customerName;
     private String customerAddress;
     private String customerEmail;

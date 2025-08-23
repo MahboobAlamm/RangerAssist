@@ -29,6 +29,7 @@ public class Customer {
     private String customerContactNumber;
     private Long orderId;
     private int priority;
+    private String orderlineStatus;
     private Timestamp orderLineDt;
     private Timestamp timestamp;
 
@@ -42,6 +43,7 @@ public class Customer {
                 ", customerContactNumber=" + customerContactNumber +
                 ", orderId=" + orderId +
                 ", priority=" + priority +
+                ", orderlineStatus=" + orderlineStatus + 
                 ", orderlineId=" + orderlineId +
                 ", orderLineDt=" + orderLineDt +
                 ", timestamp=" + timestamp +

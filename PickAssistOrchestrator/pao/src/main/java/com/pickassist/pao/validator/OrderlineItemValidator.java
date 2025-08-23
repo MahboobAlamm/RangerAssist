@@ -21,6 +21,11 @@ public class OrderlineItemValidator {
 
         dto.setProductName(dataSanitizer.sanitizeString(dto.getProductName()));
         dto.setProductBrand(dataSanitizer.sanitizeString(dto.getProductBrand()));
+        dto.setOrderlineItemStatus(dataSanitizer.sanitizeString(dto.getOrderlineItemStatus()));
+
+        if (dto.getOrderlineItemStatus() == null || dto.getOrderlineItemStatus().isEmpty()) {
+            throw new ValidationException(ErrorMessages.ORDERLINEITEM_STATUS_REQUIRED);
+        }
 
         if (dto.getProductName() == null || dto.getProductName().isEmpty()) {
             throw new ValidationException(ErrorMessages.ORDERLINEITEM_PRODUCT_NAME_REQUIRED);

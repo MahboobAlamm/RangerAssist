@@ -25,7 +25,7 @@ public class Order {
 
     @Column(unique=true)
     private Long orderId;
-    private String status;
+    private String orderStatus;
     private Timestamp orderDt;
     private Long noOfOrdelineId;
     private Timestamp timestamp;
@@ -35,7 +35,7 @@ public class Order {
         return "Order{" +
             "orderSK=" + orderSK +
             "orderId=" + orderId +
-            ", status='" + status + '\'' +
+            ", status='" + orderStatus + '\'' +
             ", noOfOrdelineId=" + noOfOrdelineId +
             ", orderDt=" + orderDt +
             ", timestamp=" + timestamp +

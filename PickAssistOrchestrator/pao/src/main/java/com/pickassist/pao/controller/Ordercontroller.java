@@ -43,7 +43,8 @@ public class OrderController {
     public ResponseEntity<String> postMethodName(@RequestBody OrderDTO dto) {
         log.info("*******************************Users Orders Details Recived: " + dto);
         orderValidator.validate(dto);
-        
+        orderService.checkAvailabilityOfOrderlineItems(dto);
+
         return ResponseEntity.ok("save");
     }
     

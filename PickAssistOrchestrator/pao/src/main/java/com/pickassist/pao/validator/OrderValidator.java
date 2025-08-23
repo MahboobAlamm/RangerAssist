@@ -26,7 +26,7 @@ public class OrderValidator {
     }
 
     private void sanitizeFields(OrderDTO dto) {
-        dto.setStatus(dataSanitizer.sanitizeString(dto.getStatus()));
+        dto.setOrderStatus(dataSanitizer.sanitizeString(dto.getOrderStatus()));
     }
 
     private void validateOrderMetadata(OrderDTO dto) {
@@ -35,7 +35,7 @@ public class OrderValidator {
             throw new ValidationException(ErrorMessages.ORDER_ID_REQUIRED);
         }
 
-        if (dto.getStatus() == null || dto.getStatus().isEmpty()) {
+        if (dto.getOrderStatus() == null || dto.getOrderStatus().isEmpty()) {
             throw new ValidationException(ErrorMessages.ORDER_STATUS_REQUIRED);
         }
 

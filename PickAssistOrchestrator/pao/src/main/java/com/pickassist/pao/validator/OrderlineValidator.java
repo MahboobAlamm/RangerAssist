@@ -28,6 +28,7 @@ public class OrderlineValidator {
         sanitizeFields(dto);
         validateIdsAndPriority(dto);
         validateCustomerInfo(dto);
+        validateOrderlineStatus(dto);
         validateEmail(dto.getCustomerEmail());
         validatePhone(dto.getCustomerContactNumber());
         validateOrderDate(dto);
@@ -35,6 +36,7 @@ public class OrderlineValidator {
     }
 
     private void sanitizeFields(OrderlineDTO dto) {
+        dto.setOrderlineStatus(dataSanitizer.sanitizeString(dto.getOrderlineStatus()));
         dto.setCustomerName(dataSanitizer.sanitizeString(dto.getCustomerName()));
         dto.setCustomerAddress(dataSanitizer.sanitizeString(dto.getCustomerAddress()));
         dto.setCustomerEmail(dataSanitizer.sanitizeString(dto.getCustomerEmail()));
@@ -48,6 +50,11 @@ public class OrderlineValidator {
         if (dto.getPriority() != 1 && dto.getPriority() != 2) {
             throw new ValidationException(ErrorMessages.ORDERLINE_INVALID_PRIORITY);
         }
+    }
+
+    private void validateOrderlineStatus(OrderlineDTO dto) {
+        if (dto.getOrderlineStatus() == null || dto.getOrderlineStatus().isEmpty())
+            throw new ValidationException(ErrorMessages.ORDERLINE_STATUS_REQUIRED); 
     }
 
     private void validateCustomerInfo(OrderlineDTO dto) {

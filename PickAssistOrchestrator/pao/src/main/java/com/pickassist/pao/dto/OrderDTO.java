@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class OrderDTO {
 
     private Long orderId;
-    private String status;
+    private String orderStatus;
     private Timestamp orderDt;
     private Long noOfOrderlineId;
 

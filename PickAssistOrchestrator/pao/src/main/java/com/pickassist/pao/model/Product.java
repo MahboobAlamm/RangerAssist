@@ -24,6 +24,7 @@ public class Product {
     @Column(unique=true)
     private Long orderlineItemId;
     private Long ordelineId;
+    private String orderlineItemStatus;
     private String productName;
     private Long productQty;
     private String brand;
@@ -34,6 +35,7 @@ public class Product {
         return "Product{" +
                 "productSK=" + productSK +
                 ", orderlineItemId=" + orderlineItemId +
+                ", orderlineItemStatus=" + orderlineItemStatus +
                 ", ordelineId=" + ordelineId +
                 ", productName='" + productName + '\'' +
                 ", productQty=" + productQty +
