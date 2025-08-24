@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pickassist.pao.client.WarehouseProductAvailability;
 import com.pickassist.pao.dto.OrderDTO;
 import com.pickassist.pao.dto.OrderlineDTO;
 import com.pickassist.pao.repository.OrderRepository;
@@ -21,6 +22,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRespository;
+
+    @Autowired
+    private WarehouseProductAvailability availability;
 
     public void checkAvailabilityOfOrderlineItems(OrderDTO dto){
         List<OrderlineDTO> prioritySortedOrderline = dto.getOrderlineDTO()
@@ -48,7 +52,11 @@ public class OrderService {
             orderLineAvailabilityList.put(orderlineId, orderlineItemList);
         }
         log.info("**************************** FINAL LIST SND TO CHECK AVAILABILITY: " + orderLineAvailabilityList);
+
+        List<Long> availabilityResponse = availability.productAvailability(orderLineAvailabilityList);
+        log.info("********************~******** AVAILABILITY ORDERLINE PRODUCT FROM WAREHOUSE: {}", availabilityResponse);
     }
+
 
     //TBR
     public void saveOrder(OrderDTO dto) {
