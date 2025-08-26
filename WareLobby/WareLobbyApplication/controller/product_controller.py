@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from WareLobbyApplication.utils.logger import logger
-from WareLobbyApplication.service.product_service import add_product, upsert_product, get_expired_products, delete_expired_product
+from WareLobbyApplication.service.product_service import add_product, upsert_product, get_expired_products, delete_expired_product, check_product_availability
 
 product_bp = Blueprint('product', __name__)
 
@@ -46,3 +46,18 @@ def delete_expiry_products():
         return jsonify(result), 200
     else:
         return jsonify(result), 500
+    
+
+@product_bp.route("/productsAvailability", methods=['POST'])
+def check_availability_products():
+    try:
+        orderline_data = request.get_json()
+        logger.info(f"Received data: {orderline_data}")
+
+        available_orderlines = check_product_availability(orderline_data)
+
+        return jsonify(available_orderlines), 200
+
+    except Exception as e:
+        logger.error(f"Error in /productsAvailability: {e}")
+        return jsonify({"error": str(e)}), 500

@@ -1,5 +1,5 @@
 from WareLobbyApplication.model.product import Product
-from WareLobbyApplication.dao.product_dao import insert_products, upsert_products, fetch_expire_proucts, delete_expired_product_from_db
+from WareLobbyApplication.dao.product_dao import insert_products, upsert_products, fetch_expire_proucts, delete_expired_product_from_db, get_product_by_name
 from WareLobbyApplication.utils.logger import logger
 from datetime import datetime, timezone
 
@@ -23,8 +23,7 @@ def add_product(product_list):
 
         return {
             "status": "success",
-            "inserted_count": len(inserted_ids),
-            "product_ids": [p["product_id"] for p in products_to_insert]
+            "inserted_count": len(inserted_ids)
         }
 
     except Exception as e:
@@ -94,3 +93,26 @@ def delete_expired_product():
             "status:": "error",
             "message": str(e)
         }
+    
+def check_product_availability(orderline_details):
+    available_orderlines = []
+
+    for orderline_id, items in orderline_details.items():
+        all_available = True
+
+        for item in items:
+            product_name = item.get("productName").lower()
+            product_qty = int(item.get("productQty"))
+
+            product = get_product_by_name(product_name)
+
+            if product and int(product.get("product_qty", 0)) >= product_qty:
+                logger.info("Available: db=%d, requested=%d", int(product.get("product_qty", 0)), product_qty)
+            else:
+                all_available = False
+                break
+
+        if all_available:
+            available_orderlines.append(orderline_id)
+
+    return available_orderlines

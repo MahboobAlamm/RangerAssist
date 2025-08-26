@@ -61,3 +61,13 @@ def delete_expired_product_from_db(current_utc):
     except Exception as e:
         logger.error(f"DAO delete_expired_products_from_db error: {e}")
         raise
+
+def get_product_by_name(product_name: str):
+    try:
+        product = product_collection.find_one(
+            {"product_name": {"$regex": f"^{product_name}$", "$options": "i"}}
+        )
+        return product
+    except Exception as e:
+        logger.error(f"DAO get_product_by_name error: {e}")
+        raise
